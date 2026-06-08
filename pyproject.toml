@@ -15,7 +15,8 @@ authors = [{ name = "Hector Garza", email = "hectorg@smartxchain.com" }]
 dependencies = [
     "torch>=2.2",
     "torchvision>=0.17",
-    "torchmetrics>=1.3",
+    "torchmetrics[image]>=1.3",  # [image] pulls torch-fidelity, required for FID
+    "matplotlib>=3.8",           # loss/FID curve plots (src/eval/plots.py)
     "gradio>=4.0",
 ]
 

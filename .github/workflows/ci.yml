@@ -15,10 +15,13 @@ jobs:
         with:
           python-version: "3.12"
 
-      # FID + training are too heavy for CI (PLAN.md "Testing strategy"): install only the
-      # dev tooling and run ruff + the mechanics tests. No torch/torchvision/gradio here.
+      # The mechanics tests (shapes + a single train step) need torch but run fast on
+      # CPU. FID/training stay out of CI per PLAN.md "Testing strategy", so we install
+      # CPU-only torch + numpy and skip the heavier torchvision/torchmetrics/gradio.
       - name: Install dev tooling
-        run: python -m pip install ruff pytest
+        run: |
+          python -m pip install ruff pytest numpy
+          python -m pip install --index-url https://download.pytorch.org/whl/cpu torch
 
       - name: Lint
         run: ruff check .
